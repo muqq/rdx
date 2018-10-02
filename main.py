@@ -61,8 +61,6 @@ for sheet in wb.sheets():
     number_of_rows = sheet.nrows
     number_of_columns = sheet.ncols
 
-    items = []
-
     rows = []
     for row in range(1, number_of_rows):
         values = []
@@ -75,6 +73,13 @@ for sheet in wb.sheets():
             finally:
                 values.append(value)
         item = Rdx(*values)
+
+        #check file exsit
+        if item.mediaSrc in png_items:
+            pass
+        else:
+            raise Exception('檔名和excel不符 {0}'.format(item.mediaSrc))
+
         language_path = os.path.join(channel_path, item.language)
         if not os.path.exists(language_path):
             os.makedirs(language_path)
