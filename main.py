@@ -32,7 +32,7 @@ class Rdx(object):
 
 
 dir = os.path.realpath(os.path.dirname(sys.argv[0]))
-result_root = dir + '/data/Computer'
+result_root = dir + '/data/RDX'
 channel_path = result_root + '/Channel'
 source_path = dir + "/data/source"
 NEUTRAL = 'Neutral'
@@ -112,19 +112,20 @@ for key in results.keys():
         "pages": results[key]
     }
     path = os.path.join(channel_path, key)
-    asset_path = os.path.join(path, 'oem_assets')
+    microsoft_prefix = "Microsoft.Getstarted_8wekyb3d8bbwe"
+    microsoft_path = os.path.join(path, microsoft_prefix)
+    asset_path = os.path.join(microsoft_path, 'oem_assets')
     if not os.path.exists(asset_path):
         os.makedirs(asset_path)
 
     for png in png_items:
         copyfile(os.path.join(source_path, png), os.path.join(asset_path, png))
 
-    shutil.make_archive(asset_path, 'zip', asset_path)
-    shutil.rmtree(asset_path)
+    shutil.make_archive(os.path.join(path, 'oem'), 'zip', path, microsoft_prefix)
+    shutil.rmtree(microsoft_path)
     with open(path + '/oem.json', 'w', encoding="utf8") as fp:
         json.dump(output, fp, ensure_ascii=False, sort_keys=True, indent=4)
         print("{0} 成功".format(key))
-
 
 def createNeutral(path):
     if not os.path.exists(path):
