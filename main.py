@@ -53,7 +53,7 @@ if not os.path.exists(channel_path):
 
 results = {}
 
-excel_path = '/data/X570UD RDX_Speed up_REV5.XLSX'
+excel_path = '/data/rdx.XLSX'
 print("目標檔案夾" + dir)
 wb = open_workbook(dir + excel_path)
 
