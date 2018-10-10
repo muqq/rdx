@@ -39,11 +39,16 @@ NEUTRAL = 'Neutral'
 EN_US = 'en-US'
 
 
-png_items = []
+image_items = []
 wmv_item = ""
 for filename in os.listdir(source_path):
-    if Path(filename).suffix == ".png":
-        png_items.append(filename)
+    suffix = Path(filename).suffix
+    if suffix == ".png":
+        image_items.append(filename)
+    elif suffix == ".jpg":
+        image_items.append(filename)
+    elif suffix == ".jpeg":
+        image_items.append(filename)
     elif Path(filename).suffix == ".wmv":
         wmv_item = filename
 
@@ -75,7 +80,7 @@ for sheet in wb.sheets():
         item = Rdx(*values)
 
         #check file exsit
-        if item.mediaSrc in png_items:
+        if item.mediaSrc in image_items:
             pass
         else:
             raise Exception('檔名和excel不符 {0}'.format(item.mediaSrc))
@@ -118,7 +123,7 @@ for key in results.keys():
     if not os.path.exists(asset_path):
         os.makedirs(asset_path)
 
-    for png in png_items:
+    for png in image_items:
         copyfile(os.path.join(source_path, png), os.path.join(asset_path, png))
 
     shutil.make_archive(os.path.join(path, 'oem'), 'zip', path, microsoft_prefix)
